@@ -5,9 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftChatworkAPI",
-    platforms: [
-        .macOS(.v12)
-    ], products: [
+    products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "SwiftChatworkAPI",
