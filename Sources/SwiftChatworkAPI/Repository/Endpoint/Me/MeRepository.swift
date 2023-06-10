@@ -30,7 +30,7 @@ struct MeRepository {
         
         // 200以外は早期リターン
         if responseStatusCode != 200 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsNot200
         }
         
         // デコードする
