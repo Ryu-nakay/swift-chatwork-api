@@ -9,7 +9,7 @@ import XCTest
 @testable import SwiftChatworkAPI
 
 final class RoomsRepositoryTests: XCTestCase {
-    let token = try! APIToken(value: "inputYourToken")
+    let token = try! APIToken(value: KeyManager().getAPIToken())
     
     func test_ChatworkAPIへ正しいTokenでGETリクエストをするとRoomsGetResponse型のモデルが返ってくること() async throws {
         let repository = RoomsRepository()
