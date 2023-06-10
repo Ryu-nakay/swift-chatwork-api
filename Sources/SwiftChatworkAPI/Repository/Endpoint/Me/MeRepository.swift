@@ -7,10 +7,11 @@
 
 import Foundation
 
+// /meへ問い合わせるリポジトリ
 struct MeRepository {
     private let endpointString = "https://api.chatwork.com/v2/me"
     
-    func fetch(token: APIToken) async throws -> Me {
+    func get(token: APIToken) async throws -> Me {
         let url = URL(string: endpointString)!
         var request = URLRequest(url: url)
         
