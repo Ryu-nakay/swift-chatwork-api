@@ -9,7 +9,7 @@ import Foundation
 
 enum APIError: Error {
     // HTTPのエラーに関しては200かそうでないかだけで一旦置いておく
-    case statusCodeIsNot200
+    case statusCodeIsNot200(statusCode: Int)
     
     // モデルへのデコードに失敗
     case failedToDecodeModel
