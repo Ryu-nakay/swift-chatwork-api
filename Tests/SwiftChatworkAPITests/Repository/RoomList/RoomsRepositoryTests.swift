@@ -9,7 +9,7 @@ import XCTest
 @testable import SwiftChatworkAPI
 
 final class RoomsRepositoryTests: XCTestCase {
-    let token = try! APIToken(value: "InputYourToken")
+    let token = try! APIToken(value: "inputYourToken")
     
     func test_ChatworkAPIへ正しいTokenでGETリクエストをするとRoomsGetResponse型のモデルが返ってくること() async throws {
         let repository = RoomsRepository()
@@ -20,7 +20,18 @@ final class RoomsRepositoryTests: XCTestCase {
     
     func test_ChatworkAPIへ正しいTokenでPOSTリクエストをするとroom_idがInt型のモデルが返ってくること() async throws {
         let repository = RoomsRepository()
-        let result = try await repository.post(token: token, formData: RoomsRepositoryPostFormData)
+        let acountId = try await MeRepository().get(token: token).accountId
+        
+        let formData = RoomsRepositoryPostFormData(
+            name: "テスト作成 \(Date.now)",
+            description: "APIライブラリからのテスト生成です",
+            linkCode: "testroom\(Date.now)",
+            membersAdminIds: "\(acountId)",
+            membersMemberIds: "",
+            membersReadonlyIds: "",
+            iconPreset: .beer
+        )
+        let result = try await repository.post(token: token, formData: formData)
 
         XCTAssertTrue(result is Int)
     }
