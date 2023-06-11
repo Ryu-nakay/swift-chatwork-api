@@ -11,7 +11,7 @@ import XCTest
 final class MeRepositoryTests: XCTestCase {
     let token = try! APIToken(value: KeyManager().getAPIToken())
     
-    // Meの返ってくることを確認できればOKとする
+    // Meが返ってくることを確認できればOKとする
     func test_ChatworkAPIへ正しいTokenでリクエストをするとMeGetResponse型のモデルが返ってくること() async throws {
         let repository = MeRepository()
         let result = try await repository.get(token: token)
