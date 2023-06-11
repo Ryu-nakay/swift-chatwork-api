@@ -9,3 +9,4 @@ DerivedData/
 .netrc
 .swiftpm
 .*.sw?
+KeyManager.swift
