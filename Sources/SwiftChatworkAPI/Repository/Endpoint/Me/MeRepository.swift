@@ -11,7 +11,7 @@ import Foundation
 struct MeRepository {
     private let endpointString = "https://api.chatwork.com/v2/me"
     
-    func get(token: APIToken) async throws -> Me {
+    func get(token: APIToken) async throws -> MeGetResponse {
         let url = URL(string: endpointString)!
         var request = URLRequest(url: url)
         
@@ -36,7 +36,7 @@ struct MeRepository {
         
         // デコードする
         do {
-            let decodeResult = try JSONDecoder().decode(Me.self, from: data)
+            let decodeResult = try JSONDecoder().decode(MeGetResponse.self, from: data)
             return decodeResult
         } catch {
             throw APIError.failedToDecodeModel
