@@ -47,3 +47,63 @@ struct IncomingRequestsRepository {
         }
     }
 }
+
+// PUTとDELETE
+extension IncomingRequestsRepository {
+    func put(token: APIToken, requestId: Int) async throws -> IncomingRequestPutResponse {
+        let url = URL(string: endpointString + "\(requestId)")!
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        // 検討: 他Repositoryでも共通な気がするから切り出し候補
+        let headers = [
+          "accept": "application/json",
+          "x-chatworktoken": token.value
+        ]
+        request.allHTTPHeaderFields = headers
+        
+        // リクエスト
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        
+        // 200以外は早期リターン
+        if responseStatusCode != 200 {
+            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+        }
+        
+        // デコードする
+        do {
+            let decodeResult = try JSONDecoder().decode(IncomingRequestPutResponse.self, from: data)
+            return decodeResult
+            
+        } catch {
+            throw APIError.failedToDecodeModel
+        }
+    }
+    
+    func delete(token: APIToken, requestId: Int) async throws {
+        let url = URL(string: endpointString + "\(requestId)")!
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        // 検討: 他Repositoryでも共通な気がするから切り出し候補
+        let headers = [
+          "accept": "application/json",
+          "x-chatworktoken": token.value
+        ]
+        request.allHTTPHeaderFields = headers
+        
+        // リクエスト
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        
+        // 200以外は早期リターン
+        if responseStatusCode != 204 {
+            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+        }
+    }
+}
