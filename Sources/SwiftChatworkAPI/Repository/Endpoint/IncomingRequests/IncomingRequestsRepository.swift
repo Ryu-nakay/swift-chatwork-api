@@ -51,7 +51,7 @@ struct IncomingRequestsRepository {
 // PUTとDELETE
 extension IncomingRequestsRepository {
     func put(token: APIToken, requestId: Int) async throws -> IncomingRequestPutResponse {
-        let url = URL(string: endpointString + "\(requestId)")!
+        let url = URL(string: endpointString + "/\(requestId)")!
         var request = URLRequest(url: url)
         
         request.httpMethod = HTTPMethod.put.rawValue

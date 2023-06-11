@@ -2,8 +2,10 @@
 //  File.swift
 //  
 //
-//  Created by cw-ryu.nakayama on 2023/06/10.
+//  Created by cw-ryu.nakayama on 2023/06/11.
 //
+
+import Foundation
 
 import Foundation
 
