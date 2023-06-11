@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Me: Decodable {
+struct MeGetResponse: Decodable {
     let accountId: Int
     let roomId: Int
     let name: String
