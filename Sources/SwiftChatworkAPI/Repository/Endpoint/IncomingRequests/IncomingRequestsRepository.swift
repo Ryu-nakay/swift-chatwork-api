@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct ContactsRepository {
-    private let endpointString = "https://api.chatwork.com/v2/contacts"
+struct IncomingRequestsRepository {
+    private let endpointString = "https://api.chatwork.com/v2/incoming_requests"
     
-    func get(token: APIToken) async throws -> ContactsGetResponse? {
+    func get(token: APIToken) async throws -> IncomingRequestsGetResponse? {
         let url = URL(string: endpointString)!
         var request = URLRequest(url: url)
         
@@ -36,8 +36,8 @@ struct ContactsRepository {
         // デコードする
         do {
             if responseStatusCode == 200 {
-                let decodeResult = try JSONDecoder().decode([Contact].self, from: data)
-                return ContactsGetResponse(body: decodeResult)
+                let decodeResult = try JSONDecoder().decode([IncomingRequest].self, from: data)
+                return IncomingRequestsGetResponse(body: decodeResult)
             }
             
             return nil
