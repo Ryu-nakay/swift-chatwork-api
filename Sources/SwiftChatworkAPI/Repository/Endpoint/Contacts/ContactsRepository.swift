@@ -28,8 +28,8 @@ struct ContactsRepository {
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
-        // 200以外は早期リターン
-        if responseStatusCode != 200 {
+        // 200と204以外は早期リターン
+        if responseStatusCode != 200 && responseStatusCode != 204 {
             throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
         }
         
