@@ -75,10 +75,30 @@ struct RoomsRoomIdRepository {
             throw APIError.failedToDecodeModel
         }
     }
-//
-//    func delete(token: APIToken, roomId: Int, actionType: RoomsRoomIdDeleteActionType) async throws {
-//
-//    }
+
+    func delete(token: APIToken, roomId: Int, actionType: RoomsRoomIdDeleteActionType) async throws {
+        let url = URL(string: endpointString + "/\(roomId)")!
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        // 検討: 他Repositoryでも共通な気がするから切り出し候補
+        let headers = [
+          "accept": "application/json",
+          "x-chatworktoken": token.value
+        ]
+        request.allHTTPHeaderFields = headers
+        
+        // リクエスト
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        
+        // 204以外は早期例外
+        if responseStatusCode != 204 {
+            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+        }
+    }
 }
 
 struct RoomsRoomIdGetResponse: Decodable {
@@ -127,4 +147,9 @@ struct RoomsRoomIdPutResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case roomId = "room_id"
     }
+}
+
+enum RoomsRoomIdDeleteActionType: String {
+    case leave = "leave"
+    case delete = "delete"
 }
