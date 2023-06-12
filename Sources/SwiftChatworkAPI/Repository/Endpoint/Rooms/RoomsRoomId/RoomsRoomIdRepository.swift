@@ -43,9 +43,38 @@ struct RoomsRoomIdRepository {
         }
     }
     
-//    func put(token: APIToken, roomId: Int, formData: RoomsRoomIdPutFormData) async throws -> Int {
-//
-//    }
+    func put(token: APIToken, roomId: Int, formData: RoomsRoomIdPutFormData) async throws -> Int {
+        let url = URL(string: endpointString + "/\(roomId)")!
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        // 検討: 他Repositoryでも共通な気がするから切り出し候補
+        let headers = [
+          "accept": "application/json",
+          "x-chatworktoken": token.value
+        ]
+        request.allHTTPHeaderFields = headers
+        
+        // リクエスト
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        
+        // 200以外は早期リターン
+        if responseStatusCode != 200 {
+            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+        }
+        
+        // デコードする
+        do {
+            let decodeResult = try JSONDecoder().decode(RoomsRoomIdPutResponse.self, from: data)
+            return decodeResult.roomId
+            
+        } catch {
+            throw APIError.failedToDecodeModel
+        }
+    }
 //
 //    func delete(token: APIToken, roomId: Int, actionType: RoomsRoomIdDeleteActionType) async throws {
 //
@@ -83,5 +112,19 @@ struct RoomsRoomIdGetResponse: Decodable {
         case iconPath = "icon_path"
         case lastUpdateTime = "last_update_time"
         case description = "description"
+    }
+}
+
+struct RoomsRoomIdPutFormData {
+    let name: String
+    let description: String
+    let iconPreset: IconPreset
+}
+
+struct RoomsRoomIdPutResponse: Decodable {
+    let roomId: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case roomId = "room_id"
     }
 }
