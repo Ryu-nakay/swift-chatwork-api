@@ -30,7 +30,7 @@ struct RoomsRoomIdRepository {
         
         // 200以外は早期リターン
         if responseStatusCode != 200 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
         
         // デコードする
@@ -63,7 +63,7 @@ struct RoomsRoomIdRepository {
         
         // 200以外は早期リターン
         if responseStatusCode != 200 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
         
         // デコードする
@@ -90,13 +90,13 @@ struct RoomsRoomIdRepository {
         request.allHTTPHeaderFields = headers
         
         // リクエスト
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (_, response) = try await URLSession.shared.data(for: request)
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
         // 204以外は早期例外
         if responseStatusCode != 204 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
     }
 }

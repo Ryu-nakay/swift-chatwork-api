@@ -30,7 +30,7 @@ struct IncomingRequestsRepository {
         
         // 200と204以外は早期リターン
         if responseStatusCode != 200 && responseStatusCode != 204 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
         
         // デコードする
@@ -70,7 +70,7 @@ extension IncomingRequestsRepository {
         
         // 200以外は早期リターン
         if responseStatusCode != 200 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
         
         // デコードする
@@ -103,7 +103,7 @@ extension IncomingRequestsRepository {
         
         // 200以外は早期リターン
         if responseStatusCode != 204 {
-            throw APIError.statusCodeIsNot200(statusCode: responseStatusCode)
+            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
         }
     }
 }
