@@ -12,15 +12,11 @@ struct RoomsRepository {
     
     func get(token: APIToken) async throws -> RoomsGetResponse {
         let url = URL(string: urlString)!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        let headers = [
-            "accept": "application/json",
-            "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .get,
+            token: token
+        )
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -43,15 +39,11 @@ struct RoomsRepository {
     
     func post(token: APIToken, formData: RoomsRepositoryPostFormData) async throws -> Int {
         let url = URL(string: urlString)!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.post.rawValue
-        
-        let headers = [
-            "accept": "application/json",
-            "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .post,
+            token: token
+        )
         
         let postData = NSMutableData(data: "name=\(formData.name)".data(using: .utf8)!)
         

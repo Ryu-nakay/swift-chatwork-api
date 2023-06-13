@@ -24,5 +24,5 @@ struct APIToken {
 }
 
 enum APITokenError: Error {
-case invalidValue
+    case invalidValue
 }

@@ -12,16 +12,11 @@ struct RoomsRoomIdRepository {
     
     func get(token: APIToken, roomId: Int) async throws -> RoomsRoomIdGetResponse {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        // 検討: 他Repositoryでも共通な気がするから切り出し候補
-        let headers = [
-          "accept": "application/json",
-          "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .get,
+            token: token
+        )
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -45,16 +40,11 @@ struct RoomsRoomIdRepository {
     
     func put(token: APIToken, roomId: Int, formData: RoomsRoomIdPutFormData) async throws -> Int {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.put.rawValue
-        
-        // 検討: 他Repositoryでも共通な気がするから切り出し候補
-        let headers = [
-          "accept": "application/json",
-          "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .put,
+            token: token
+        )
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -78,16 +68,11 @@ struct RoomsRoomIdRepository {
 
     func delete(token: APIToken, roomId: Int, actionType: RoomsRoomIdDeleteActionType) async throws {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.delete.rawValue
-        
-        // 検討: 他Repositoryでも共通な気がするから切り出し候補
-        let headers = [
-          "accept": "application/json",
-          "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .delete,
+            token: token
+        )
         
         // リクエスト
         let (_, response) = try await URLSession.shared.data(for: request)

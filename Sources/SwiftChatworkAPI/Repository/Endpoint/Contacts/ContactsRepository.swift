@@ -12,16 +12,11 @@ struct ContactsRepository {
     
     func get(token: APIToken) async throws -> ContactsGetResponse? {
         let url = URL(string: endpointString)!
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        // 検討: 他Repositoryでも共通な気がするから切り出し候補
-        let headers = [
-          "accept": "application/json",
-          "x-chatworktoken": token.value
-        ]
-        request.allHTTPHeaderFields = headers
+        var request = generateRequest(
+            url: url,
+            method: .get,
+            token: token
+        )
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
