@@ -23,10 +23,8 @@ struct RoomsRoomIdRepository {
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
-        // 200以外は早期リターン
-        if responseStatusCode != 200 {
-            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
-        }
+        // 200以外は例外
+        try throwNot200StatusCode(responseStatusCode)
         
         // デコードする
         do {
@@ -51,10 +49,8 @@ struct RoomsRoomIdRepository {
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
-        // 200以外は早期リターン
-        if responseStatusCode != 200 {
-            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
-        }
+        // 200以外は例外
+        try throwNot200StatusCode(responseStatusCode)
         
         // デコードする
         do {
@@ -79,10 +75,8 @@ struct RoomsRoomIdRepository {
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
-        // 204以外は早期例外
-        if responseStatusCode != 204 {
-            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
-        }
+        // 204以外は例外
+        try throwNot204StatusCode(responseStatusCode)
     }
 }
 

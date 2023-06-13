@@ -23,10 +23,8 @@ struct ContactsRepository {
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         
-        // 200と204以外は早期リターン
-        if responseStatusCode != 200 && responseStatusCode != 204 {
-            throw APIError.statusCodeIsUnexpected(statusCode: responseStatusCode)
-        }
+        // 200か204以外は例外
+        try throwNot200Or204StatusCode(responseStatusCode)
         
         // デコードする
         do {
