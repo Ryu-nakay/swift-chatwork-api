@@ -12,17 +12,12 @@ struct MyTasksRepository {
     
     func get(token: APIToken) async throws -> MyTasksGetResponse {
         let url = URL(string: endpointString)!
-        var request = generateRequest(
-            url: url,
-            method: .get,
-            token: token
-        )
+        var request = generateRequest(url: url, method: .get, token: token)
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        
         // 200以外は例外
         try throwNot200StatusCode(responseStatusCode)
         

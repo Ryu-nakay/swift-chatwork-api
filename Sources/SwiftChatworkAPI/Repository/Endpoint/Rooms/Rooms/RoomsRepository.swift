@@ -12,16 +12,11 @@ struct RoomsRepository {
     
     func get(token: APIToken) async throws -> RoomsGetResponse {
         let url = URL(string: urlString)!
-        var request = generateRequest(
-            url: url,
-            method: .get,
-            token: token
-        )
+        var request = generateRequest(url: url, method: .get, token: token)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        
         // 200以外は例外
         try throwNot200StatusCode(responseStatusCode)
         

@@ -8,14 +8,14 @@
 import XCTest
 @testable import SwiftChatworkAPI
 
-final class ContactsRepositoryTests: XCTestCase {
+final class ContactsTests: XCTestCase {
     let token = try! APIToken(value: KeyManager().getAPIToken())
     
-    // ContactsGetResponse?が返ってくることを確認できればOKとする
-    func test_ChatworkAPIへ正しいTokenでリクエストをするとContactsGetResponse型のモデルが返ってくること() async throws {
-        let repository = ContactsRepository()
+    // Response?が返ってくることを確認できればOKとする
+    func test_ChatworkAPIへ正しいTokenでリクエストをするとResponse型のモデルが返ってくること() async throws {
+        let repository = Contacts()
         let result = try await repository.get(token: token)
         
-        XCTAssertTrue(result is ContactsGetResponse?) // 常にtrueだけど、テストの意図を伝えるための記述
+        XCTAssertTrue(result is Contacts.GetResponse?) // 常にtrueだけど、テストの意図を伝えるための記述
     }
 }
