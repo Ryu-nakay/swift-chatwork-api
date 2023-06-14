@@ -13,18 +13,22 @@ struct Contacts {
     func get(token: APIToken) async throws -> GetResponse? {
         let url = URL(string: endpointString)!
         let request = generateRequest(url: url, method: .get, token: token)
-        
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
-        
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        
         // 200か204以外は例外
         try throwNot200Or204StatusCode(responseStatusCode)
         
         // デコードする
+        return try getDecode(statusCode: responseStatusCode, data: data)
+    }
+}
+
+// Private Methods
+extension Contacts {
+    private func getDecode(statusCode: Int, data: Data) throws -> GetResponse? {
         do {
-            if responseStatusCode == 200 {
+            if statusCode == 200 {
                 let decodeResult = try JSONDecoder().decode([GetResponse.Contact].self, from: data)
                 return GetResponse(body: decodeResult)
             }
