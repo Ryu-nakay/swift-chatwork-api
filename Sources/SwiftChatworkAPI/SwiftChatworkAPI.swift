@@ -16,3 +16,26 @@ struct ChatworkAPI {
         }
     }
 }
+
+// Type
+extension ChatworkAPI {
+    enum IconPreset: String {
+        case group = "group"
+        case check = "check"
+        case document = "document"
+        case meeting = "meeting"
+        case event = "event"
+        case project = "project"
+        case business = "business"
+        case study = "study"
+        case security = "security"
+        case star = "star"
+        case idea = "idea"
+        case heart = "heart"
+        case magcup = "magcup"
+        case beer = "beer"
+        case music = "music"
+        case sports = "sports"
+        case travel = "travel"
+    }
+}

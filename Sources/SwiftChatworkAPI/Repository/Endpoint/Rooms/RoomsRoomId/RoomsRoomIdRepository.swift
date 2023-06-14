@@ -107,7 +107,7 @@ struct RoomsRoomIdGetResponse: Decodable {
 struct RoomsRoomIdPutFormData {
     let name: String
     let description: String
-    let iconPreset: IconPreset
+    let iconPreset: ChatworkAPI.IconPreset
 }
 
 struct RoomsRoomIdPutResponse: Decodable {
