@@ -8,8 +8,6 @@
 import Foundation
 
 struct My {
-    let status = Status()
-    let tasks = Tasks()
 }
 
 // Status
