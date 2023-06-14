@@ -20,7 +20,7 @@ final class RoomsRepositoryTests: XCTestCase {
     
     func test_ChatworkAPIへ正しいTokenでPOSTリクエストをするとroom_idがInt型のモデルが返ってくること() async throws {
         let repository = RoomsRepository()
-        let acountId = try await MeRepository().get(token: token).accountId
+        let acountId = try await Me().get(token: token).accountId
         
         let formData = RoomsRepositoryPostFormData(
             name: "テスト作成 \(Date.now)",
