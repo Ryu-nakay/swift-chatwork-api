@@ -12,11 +12,7 @@ struct RoomsRoomIdRepository {
     
     func get(token: APIToken, roomId: Int) async throws -> RoomsRoomIdGetResponse {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = generateRequest(
-            url: url,
-            method: .get,
-            token: token
-        )
+        let request = generateRequest(url: url, method: .get, token: token)
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -38,11 +34,7 @@ struct RoomsRoomIdRepository {
     
     func put(token: APIToken, roomId: Int, formData: RoomsRoomIdPutFormData) async throws -> Int {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = generateRequest(
-            url: url,
-            method: .put,
-            token: token
-        )
+        let request = generateRequest(url: url, method: .put, token: token)
         
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -64,7 +56,7 @@ struct RoomsRoomIdRepository {
 
     func delete(token: APIToken, roomId: Int, actionType: RoomsRoomIdDeleteActionType) async throws {
         let url = URL(string: endpointString + "/\(roomId)")!
-        var request = generateRequest(
+        let request = generateRequest(
             url: url,
             method: .delete,
             token: token
@@ -72,9 +64,7 @@ struct RoomsRoomIdRepository {
         
         // リクエスト
         let (_, response) = try await URLSession.shared.data(for: request)
-        
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        
         // 204以外は例外
         try throwNot204StatusCode(responseStatusCode)
     }

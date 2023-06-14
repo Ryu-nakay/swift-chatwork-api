@@ -12,7 +12,7 @@ struct RoomsRepository {
     
     func get(token: APIToken) async throws -> RoomsGetResponse {
         let url = URL(string: urlString)!
-        var request = generateRequest(url: url, method: .get, token: token)
+        let request = generateRequest(url: url, method: .get, token: token)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         

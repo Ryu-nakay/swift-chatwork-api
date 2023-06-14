@@ -13,7 +13,7 @@ struct Me {
     
     func get(token: APIToken) async throws -> GetResponse {
         let url = URL(string: endpointString)!
-        var request = generateRequest(url: url, method: .get, token: token)
+        let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
