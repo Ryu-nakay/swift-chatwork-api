@@ -38,4 +38,10 @@ extension ChatworkAPI {
         case sports = "sports"
         case travel = "travel"
     }
+    
+    enum Role: String {
+        case admin = "admin"
+        case member = "member"
+        case readonly = "readonly"
+    }
 }
