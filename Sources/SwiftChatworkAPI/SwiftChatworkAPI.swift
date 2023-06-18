@@ -44,4 +44,16 @@ extension ChatworkAPI {
         case member = "member"
         case readonly = "readonly"
     }
+    
+    struct Account: Decodable {
+        let accountId: Int
+        let name: String
+        let avatarImageUrl: String
+        
+        enum CodingKeys: String, CodingKey {
+            case accountId = "account_id"
+            case name = "name"
+            case avatarImageUrl = "avatar_image_url"
+        }
+    }
 }

@@ -68,7 +68,7 @@ extension Rooms.RoomId.Messages {
     
     struct GetResponse: Decodable {
         let messageId: String
-        let account: Account
+        let account: ChatworkAPI.Account
         let body: String
         let sendTime: Int
         let updateTime: Int
@@ -82,17 +82,7 @@ extension Rooms.RoomId.Messages {
         }
     }
     
-    struct Account: Decodable {
-        let accountId: Int
-        let name: String
-        let avatarImageUrl: String
-        
-        enum CodingKeys: String, CodingKey {
-            case accountId = "account_id"
-            case name = "name"
-            case avatarImageUrl = "avatar_image_url"
-        }
-    }
+    
     
     struct FormData {
         let body: Int
