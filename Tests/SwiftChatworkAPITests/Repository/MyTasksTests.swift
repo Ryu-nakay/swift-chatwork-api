@@ -13,9 +13,9 @@ final class MyTasksTests: XCTestCase {
     
     // MyTasksGetResponse返ってくることを確認できればOKとする
     func test_ChatworkAPIへ正しいTokenでリクエストをするとMyTasksGetResponse型のモデルが返ってくること() async throws {
-        let repository = My.Tasks()
+        let repository = MyPath.Tasks()
         let result = try await repository.get(token: token)
         
-        XCTAssertTrue(result is My.Tasks.GetResponse) // 常にtrueだけど、テストの意図を伝えるための記述
+        XCTAssertTrue(result is MyPath.Tasks.GetResponse) // 常にtrueだけど、テストの意図を伝えるための記述
     }
 }

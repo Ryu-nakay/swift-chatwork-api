@@ -12,12 +12,12 @@ final class RoomIdTests: XCTestCase {
     let token = try! APIToken(value: KeyManager().getAPIToken())
 
     func test_RoomsRoomIdGetResponseが帰ってくる() async throws {
-        let roomId = try await Rooms().get(token: token).body[0].roomId
+        let roomId = try await RoomsPath().get(token: token).body[0].roomId
         
-        let repository = Rooms.RoomId()
+        let repository = RoomIdPath()
         let result = try await repository.get(token: token, roomId: roomId)
         
-        XCTAssertTrue(result is Rooms.RoomId.GetResponse)
+        XCTAssertTrue(result is RoomIdPath.GetResponse)
     }
 
 }

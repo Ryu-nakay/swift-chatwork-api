@@ -13,10 +13,10 @@ final class IncomingRequestsTests: XCTestCase {
     
     // IncomingRequestsGetResponse?が返ってくることを確認できればOKとする
     func test_ChatworkAPIへ正しいTokenでGETリクエストをするとIncomingRequestsGetResponse型のモデルが返ってくること() async throws {
-        let repository = IncomingRequests()
+        let repository = IncomingRequestsPath()
         let result = try await repository.get(token: token)
         
-        XCTAssertTrue(result is IncomingRequests.GetResponse?) // 常にtrueだけど、テストの意図を伝えるための記述
+        XCTAssertTrue(result is IncomingRequestsPath.GetResponse?) // 常にtrueだけど、テストの意図を伝えるための記述
     }
 }
 

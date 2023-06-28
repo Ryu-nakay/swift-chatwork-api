@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IncomingRequests {
+struct IncomingRequestsPath {
     private let endpointString = "https://api.chatwork.com/v2/incoming_requests"
     
     func get(token: APIToken) async throws -> GetResponse? {
@@ -35,7 +35,7 @@ struct IncomingRequests {
 }
 
 // PUTとDELETE
-extension IncomingRequests {
+extension IncomingRequestsPath {
     func put(token: APIToken, requestId: Int) async throws -> PutResponse {
         let url = URL(string: endpointString + "/\(requestId)")!
         let request = generateRequest(
@@ -69,7 +69,7 @@ extension IncomingRequests {
     }
 }
 // Types
-extension IncomingRequests {
+extension IncomingRequestsPath {
     struct GetResponse {
         let body: [IncomingRequest]
     }

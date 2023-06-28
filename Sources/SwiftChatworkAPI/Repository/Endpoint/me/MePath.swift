@@ -8,7 +8,7 @@
 import Foundation
 
 // /meへ問い合わせるリポジトリ
-struct Me {
+struct MePath {
     private let endpointString = "https://api.chatwork.com/v2/me"
     
     func get(token: APIToken) async throws -> GetResponse {
@@ -30,7 +30,7 @@ struct Me {
 }
 
 // Types
-extension Me {
+extension MePath {
     struct GetResponse: Decodable {
         let accountId: Int
         let roomId: Int

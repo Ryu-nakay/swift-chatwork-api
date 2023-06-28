@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Contacts {
+struct ContactsPath {
     private let endpointString = "https://api.chatwork.com/v2/contacts"
     
     func get(token: APIToken) async throws -> GetResponse? {
@@ -25,7 +25,7 @@ struct Contacts {
 }
 
 // Private Methods
-extension Contacts {
+extension ContactsPath {
     private func getDecode(statusCode: Int, data: Data) throws -> GetResponse? {
         do {
             if statusCode == 200 {
@@ -41,7 +41,7 @@ extension Contacts {
 }
 
 // Types
-extension Contacts {
+extension ContactsPath {
     struct GetResponse: Decodable {
         let body: [Contact]
         

@@ -7,8 +7,14 @@
 
 import Foundation
 
-struct Rooms {
-    let urlString = "https://api.chatwork.com/v2/rooms"
+struct RoomsPath {
+    public let roomId = RoomIdPath()
+}
+
+extension RoomsPath {
+    var urlString: String {
+        "https://api.chatwork.com/v2/rooms"
+    }
     
     func get(token: APIToken) async throws -> GetResponse {
         let url = URL(string: urlString)!
@@ -62,7 +68,7 @@ struct Rooms {
     
 }
 
-extension Rooms {
+extension RoomsPath {
     struct GetResponse  {
         let body: [Room]
     }

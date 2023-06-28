@@ -7,11 +7,13 @@
 
 import Foundation
 
-struct My {
+struct MyPath {
+    public let status = Status()
+    public let tasks = Tasks()
 }
 
 // Status
-extension My {
+extension MyPath {
     struct Status {
         private let endpointString = "https://api.chatwork.com/v2/my/status"
         
@@ -54,7 +56,7 @@ extension My {
 }
 
 // Tasks
-extension My {
+extension MyPath {
     struct Tasks {
         private let endpointString = "https://api.chatwork.com/v2/my/status"
         
