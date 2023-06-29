@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct MembersPath {
+public struct MembersPath {
     private func endpointString(roomId: Int) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/members"
     }
     
-    func get(token: APIToken, roomId: Int) async throws -> GetResponse {
+    public func get(roomId: Int) async throws -> GetResponse {
         let url = URL(string: endpointString(roomId: roomId))!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -32,8 +33,9 @@ struct MembersPath {
         }
     }
     
-    func put(token: APIToken, roomId: Int, formData: PutFormData) async throws -> PutResponse {
+    public func put(roomId: Int, formData: PutFormData) async throws -> PutResponse {
         let url = URL(string: endpointString(roomId: roomId))!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .put, token: token)
         let postData = NSMutableData(data: "members_admin_ids=\(formData.membersAdminIds)".data(using: .utf8)!)
         postData.append("&members_member_ids=\(formData.membersMemberIds ?? "")".data(using: .utf8)!)
@@ -58,7 +60,7 @@ struct MembersPath {
 
 // Types
 extension MembersPath {
-    struct GetResponse {
+    public struct GetResponse {
         let body: [Member]
         
         struct Member {
@@ -108,13 +110,13 @@ extension MembersPath {
         }
     }
     
-    struct PutResponse: Decodable {
+    public struct PutResponse: Decodable {
         let admin: [Int]
         let member: [Int]
         let readonly: [Int]
     }
     
-    struct PutFormData {
+    public struct PutFormData {
         let membersAdminIds: String
         let membersMemberIds: String?
         let membersReadonlyIds: String?

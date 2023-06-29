@@ -7,13 +7,18 @@
 
 import Foundation
 
-struct MessagesPath {
+public struct MessagesPath {
+    public let read = ReadPath()
+    public let unread = UnreadPath()
+    public let messageId = MessageIdPath()
+    
     private func endpointString(roomId: Int) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/messages"
     }
     
-    func get(token: APIToken, roomId: Int, force: Force = .force0) async throws -> GetResponse? {
+    public func get(roomId: Int, force: Force = .force0) async throws -> GetResponse? {
         let url = URL(string: endpointString(roomId: roomId) + "?force=\(force.rawValue)")!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -34,8 +39,9 @@ struct MessagesPath {
         }
     }
     
-    func post(token: APIToken, roomId: Int, formData: FormData) async throws -> PostResponse {
+    public func post(roomId: Int, formData: FormData) async throws -> PostResponse {
         let url = URL(string: endpointString(roomId: roomId))!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .post, token: token)
         
         let postData = NSMutableData(data: "body=\(formData.body)".data(using: .utf8)!)
@@ -59,12 +65,12 @@ struct MessagesPath {
 }
 
 extension MessagesPath {
-    enum Force: Int {
+    public enum Force: Int {
         case force0 = 0
         case force1 = 1
     }
     
-    struct GetResponse: Decodable {
+    public struct GetResponse: Decodable {
         let messageId: String
         let account: ChatworkAPI.Account
         let body: String
@@ -82,12 +88,12 @@ extension MessagesPath {
     
     
     
-    struct FormData {
+    public struct FormData {
         let body: Int
         let selfUnread: SelfUnread
     }
     
-    struct PostResponse: Decodable {
+    public struct PostResponse: Decodable {
         let messageId: String
         
         enum CodingKeys: String, CodingKey {

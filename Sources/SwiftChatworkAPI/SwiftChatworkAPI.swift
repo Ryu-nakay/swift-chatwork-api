@@ -1,19 +1,43 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-struct ChatworkAPI {
-    static let shared: ChatworkAPI = .init()
+public struct ChatworkAPI {
+    public static let shared: ChatworkAPI = .init()
+    private init() {}
+    
+    // ChatworkAPIのTokenを設定するメソッド
+    public func registerToken(token: String) throws {
+        do {
+            let apiToken = try APIToken(value: token)
+            TokenStore.shared.setToken(token: apiToken)
+        } catch {
+            throw error
+        }
+    }
+    
+    public let me = MePath()
+    public let my = MyPath()
+    public let contacts = ContactsPath()
+    public let rooms = RoomsPath()
+    public let incomingRequests = IncomingRequestsPath()
+}
+
+struct TokenStore {
+    public static var shared: TokenStore = .init()
     private init() {}
     
     private var token: APIToken?
     
-    // ChatworkAPIのTokenを設定するメソッド
-    mutating func registerToken(token: String) throws {
-        do {
-            self.token = try APIToken(value: token)
-        } catch {
-            throw error
+    mutating func setToken(token: APIToken) {
+        self.token = token
+    }
+    
+    func getToken() throws -> APIToken {
+        if token == nil {
+            throw TokenError.tokenDoesNotExist
         }
+        
+        return token!
     }
 }
 

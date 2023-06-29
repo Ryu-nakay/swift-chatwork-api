@@ -8,11 +8,12 @@
 import Foundation
 
 // /meへ問い合わせるリポジトリ
-struct MePath {
+public struct MePath {
     private let endpointString = "https://api.chatwork.com/v2/me"
     
-    func get(token: APIToken) async throws -> GetResponse {
+    public func get() async throws -> GetResponse {
         let url = URL(string: endpointString)!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -30,7 +31,7 @@ struct MePath {
 }
 
 // Types
-extension MePath {
+public extension MePath {
     struct GetResponse: Decodable {
         let accountId: Int
         let roomId: Int

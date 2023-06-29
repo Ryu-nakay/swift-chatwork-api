@@ -7,11 +7,16 @@
 
 import Foundation
 
-struct RoomIdPath {
+public struct RoomIdPath {
+    public let members = MembersPath()
+    public let messages = MessagesPath()
+    public let tasks = TasksPath()
+    
     private let endpointString = "https://api.chatwork.com/v2/rooms"
     
-    func get(token: APIToken, roomId: Int) async throws -> GetResponse {
+    public func get(roomId: Int) async throws -> GetResponse {
         let url = URL(string: endpointString + "/\(roomId)")!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -28,8 +33,9 @@ struct RoomIdPath {
         }
     }
     
-    func put(token: APIToken, roomId: Int, formData: PutFormData) async throws -> Int {
+    public func put(roomId: Int, formData: PutFormData) async throws -> Int {
         let url = URL(string: endpointString + "/\(roomId)")!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .put, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -46,8 +52,9 @@ struct RoomIdPath {
         }
     }
 
-    func delete(token: APIToken, roomId: Int, actionType: DeleteActionType) async throws {
+    public func delete(roomId: Int, actionType: DeleteActionType) async throws {
         let url = URL(string: endpointString + "/\(roomId)")!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .delete, token: token)
         // リクエスト
         let (_, response) = try await URLSession.shared.data(for: request)
@@ -59,7 +66,7 @@ struct RoomIdPath {
 
 // Types
 extension RoomIdPath {
-    struct GetResponse: Decodable {
+    public struct GetResponse: Decodable {
         let roomId: Int
         let name: String
         let type: String
@@ -93,13 +100,13 @@ extension RoomIdPath {
         }
     }
 
-    struct PutFormData {
+    public struct PutFormData {
         let name: String
         let description: String
         let iconPreset: ChatworkAPI.IconPreset
     }
 
-    struct PutResponse: Decodable {
+    public struct PutResponse: Decodable {
         let roomId: Int
         
         enum CodingKeys: String, CodingKey {
@@ -107,7 +114,7 @@ extension RoomIdPath {
         }
     }
 
-    enum DeleteActionType: String {
+    public enum DeleteActionType: String {
         case leave = "leave"
         case delete = "delete"
     }

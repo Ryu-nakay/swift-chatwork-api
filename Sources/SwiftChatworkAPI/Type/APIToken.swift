@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct APIToken {
-    let value: String
+public struct APIToken {
+    public let value: String
     
-    init(value: String) throws {
+    public init(value: String) throws {
         if isSingleByteAlphanumericCharacters(value: value) == false {
             throw APITokenError.invalidValue
         }
@@ -23,6 +23,6 @@ struct APIToken {
     }
 }
 
-enum APITokenError: Error {
+public enum APITokenError: Error {
     case invalidValue
 }

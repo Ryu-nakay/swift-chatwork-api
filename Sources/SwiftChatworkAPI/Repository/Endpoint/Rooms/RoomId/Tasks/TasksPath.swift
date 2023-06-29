@@ -7,18 +7,23 @@
 
 import Foundation
 
-struct TasksPath {
+public struct TasksPath {
+    public let taskId = TaskIdPath()
+    
     private func endpointString(roomId: Int) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/tasks"
     }
     
-    func get(token: APIToken, roomId: Int, queryParams: QueryParams) async throws -> GetResponse {
+    public func get(roomId: Int, queryParams: QueryParams) async throws -> GetResponse {
         let url = URL(string: endpointString(roomId: roomId))!
-        let request = generateRequest(url: url, method: .get, token: token)
+        let token = try TokenStore.shared.getToken()
+        var request = generateRequest(url: url, method: .get, token: token)
         
         let postData = NSMutableData(data: "account_id=\(queryParams.accountId)".data(using: .utf8)!)
         postData.append("&assigned_by_account_id=\(queryParams.assignedByAccountId)".data(using: .utf8)!)
         postData.append("&status=\(queryParams.status.rawValue)".data(using: .utf8)!)
+        
+        request.httpBody = postData as Data
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
@@ -33,8 +38,9 @@ struct TasksPath {
         }
     }
     
-    func post(token: APIToken, roomId: Int, formData: FormData) async throws -> PostResponse {
+    public func post(roomId: Int, formData: FormData) async throws -> PostResponse {
         let url = URL(string: endpointString(roomId: roomId))!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .post, token: token)
         
         let postData = NSMutableData(data: "body=\(formData.body)".data(using: .utf8)!)
@@ -60,7 +66,7 @@ struct TasksPath {
 }
 
 extension TasksPath {
-    struct GetResponse {
+    public struct GetResponse {
         let taskId: Int
         let account: ChatworkAPI.Account
         let assignedByAccount: ChatworkAPI.Account
@@ -71,7 +77,7 @@ extension TasksPath {
         let limitType: TaskType.LimitType
     }
     
-    struct DecodableGetResponse: Decodable {
+    public struct DecodableGetResponse: Decodable {
         let taskId: Int
         let account: ChatworkAPI.Account
         let assignedByAccount: ChatworkAPI.Account
@@ -106,13 +112,13 @@ extension TasksPath {
         }
     }
     
-    struct QueryParams {
+    public struct QueryParams {
         let accountId: Int
         let assignedByAccountId: Int
         let status: TaskType.Status
     }
     
-    struct FormData {
+    public struct FormData {
         let body: String
         let toIds: String
         // Unix時間
@@ -120,7 +126,7 @@ extension TasksPath {
         let limitType: TaskType.LimitType
     }
     
-    struct PostResponse: Decodable {
+    public struct PostResponse: Decodable {
         let taskIds: [Int]
         
         enum CodingKeys: String, CodingKey {

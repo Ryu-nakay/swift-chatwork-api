@@ -7,13 +7,16 @@
 
 import Foundation
 
-struct TasksIdPath {
+public struct TaskIdPath {
+    public let status = StatusPath()
+    
     private func endpointString(roomId: Int, taskId: Int) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/tasks/\(taskId)"
     }
     
-    func get(token: APIToken, roomId: Int, taskId: Int) async throws -> GetResponse {
+    public func get(roomId: Int, taskId: Int) async throws -> GetResponse {
         let url = URL(string: endpointString(roomId: roomId, taskId: taskId))!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -30,8 +33,8 @@ struct TasksIdPath {
     }
 }
 
-extension TasksIdPath {
-    struct GetResponse {
+extension TaskIdPath {
+    public struct GetResponse {
         let taskId: Int
         let account: ChatworkAPI.Account
         let assignedByAccount: ChatworkAPI.Account
@@ -42,7 +45,7 @@ extension TasksIdPath {
         let limitType: TaskType.LimitType
     }
     
-    struct DecodableGetResponse: Decodable {
+    public struct DecodableGetResponse: Decodable {
         let taskId: Int
         let account: ChatworkAPI.Account
         let assignedByAccount: ChatworkAPI.Account

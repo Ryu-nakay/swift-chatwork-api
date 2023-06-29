@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct ContactsPath {
+public struct ContactsPath {
     private let endpointString = "https://api.chatwork.com/v2/contacts"
     
-    func get(token: APIToken) async throws -> GetResponse? {
+    public func get() async throws -> GetResponse? {
         let url = URL(string: endpointString)!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -42,7 +43,7 @@ extension ContactsPath {
 
 // Types
 extension ContactsPath {
-    struct GetResponse: Decodable {
+    public struct GetResponse: Decodable {
         let body: [Contact]
         
         struct Contact: Decodable {

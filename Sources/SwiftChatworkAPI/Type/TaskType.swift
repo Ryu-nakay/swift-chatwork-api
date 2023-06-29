@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum TaskType {
-    enum Status: String {
+public enum TaskType {
+    public enum Status: String {
         case open = "open"
         case done = "done"
     }
     
-    enum LimitType: String {
+    public enum LimitType: String {
         case none = "none"
         case date = "date"
         case time = "time"

@@ -7,18 +7,19 @@
 
 import Foundation
 
-struct MyPath {
+public struct MyPath {
     public let status = Status()
     public let tasks = Tasks()
 }
 
 // Status
-extension MyPath {
+public extension MyPath {
     struct Status {
         private let endpointString = "https://api.chatwork.com/v2/my/status"
         
-        func get(token: APIToken) async throws -> GetResponse {
+        public func get() async throws -> GetResponse {
             let url = URL(string: endpointString)!
+            let token = try TokenStore.shared.getToken()
             let request = generateRequest(url: url, method: .get, token: token)
             // リクエスト
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -35,7 +36,7 @@ extension MyPath {
         }
         
         // Types
-        struct GetResponse: Decodable {
+        public struct GetResponse: Decodable {
             let unreadRoomNum: Int
             let mentionRoomNum: Int
             let mytaskRoomNum: Int
@@ -56,12 +57,13 @@ extension MyPath {
 }
 
 // Tasks
-extension MyPath {
+public extension MyPath {
     struct Tasks {
         private let endpointString = "https://api.chatwork.com/v2/my/status"
         
-        func get(token: APIToken) async throws -> GetResponse {
+        public func get() async throws -> GetResponse {
             let url = URL(string: endpointString)!
+            let token = try TokenStore.shared.getToken()
             let request = generateRequest(url: url, method: .get, token: token)
             // リクエスト
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -78,7 +80,7 @@ extension MyPath {
         }
         
         // Types
-        struct GetResponse: Decodable {
+        public struct GetResponse: Decodable {
             let unreadRoomNum : Int
             let mentionRoomNum : Int
             let mytaskRoomNum : Int

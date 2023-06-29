@@ -7,11 +7,14 @@
 
 import Foundation
 
-struct IncomingRequestsPath {
+public struct IncomingRequestsPath {
+    public let requestId = RequestIdPath()
+    
     private let endpointString = "https://api.chatwork.com/v2/incoming_requests"
     
-    func get(token: APIToken) async throws -> GetResponse? {
+    public func get() async throws -> GetResponse? {
         let url = URL(string: endpointString)!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -34,47 +37,13 @@ struct IncomingRequestsPath {
     }
 }
 
-// PUTとDELETE
-extension IncomingRequestsPath {
-    func put(token: APIToken, requestId: Int) async throws -> PutResponse {
-        let url = URL(string: endpointString + "/\(requestId)")!
-        let request = generateRequest(
-            url: url,
-            method: .put,
-            token: token
-        )
-        // リクエスト
-        let (data, response) = try await URLSession.shared.data(for: request)
-        let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        // 200以外は例外
-        try throwNot200StatusCode(responseStatusCode)
-        // デコードする
-        do {
-            let decodeResult = try JSONDecoder().decode(PutResponse.self, from: data)
-            return decodeResult
-            
-        } catch {
-            throw APIError.failedToDecodeModel
-        }
-    }
-    
-    func delete(token: APIToken, requestId: Int) async throws {
-        let url = URL(string: endpointString + "\(requestId)")!
-        let request = generateRequest(url: url, method: .delete, token: token)
-        // リクエスト
-        let (_, response) = try await URLSession.shared.data(for: request)
-        let responseStatusCode = (response as! HTTPURLResponse).statusCode
-        // 200以外は例外
-        try throwNot200StatusCode(responseStatusCode)
-    }
-}
 // Types
 extension IncomingRequestsPath {
-    struct GetResponse {
+    public struct GetResponse {
         let body: [IncomingRequest]
     }
 
-    struct IncomingRequest: Decodable {
+    public struct IncomingRequest: Decodable {
         let requestId: Int
         let accountId: Int
         let message: String
@@ -97,8 +66,47 @@ extension IncomingRequestsPath {
             case avatarImageUrl = "avatar_image_url"
         }
     }
+}
+
+// PUTとDELETE
+public struct RequestIdPath {
+    private let endpointString = "https://api.chatwork.com/v2/incoming_requests"
     
-    struct PutResponse: Decodable {
+    public func put(requestId: Int) async throws -> PutResponse {
+        let url = URL(string: endpointString + "/\(requestId)")!
+        let token = try TokenStore.shared.getToken()
+        let request = generateRequest(
+            url: url,
+            method: .put,
+            token: token
+        )
+        // リクエスト
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        // 200以外は例外
+        try throwNot200StatusCode(responseStatusCode)
+        // デコードする
+        do {
+            let decodeResult = try JSONDecoder().decode(PutResponse.self, from: data)
+            return decodeResult
+            
+        } catch {
+            throw APIError.failedToDecodeModel
+        }
+    }
+    
+    public func delete(requestId: Int) async throws {
+        let url = URL(string: endpointString + "\(requestId)")!
+        let token = try TokenStore.shared.getToken()
+        let request = generateRequest(url: url, method: .delete, token: token)
+        // リクエスト
+        let (_, response) = try await URLSession.shared.data(for: request)
+        let responseStatusCode = (response as! HTTPURLResponse).statusCode
+        // 200以外は例外
+        try throwNot200StatusCode(responseStatusCode)
+    }
+    
+    public struct PutResponse: Decodable {
         let accountId: Int
         let roomId: Int
         let name: String

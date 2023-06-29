@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RoomsPath {
+public struct RoomsPath {
     public let roomId = RoomIdPath()
 }
 
@@ -16,8 +16,9 @@ extension RoomsPath {
         "https://api.chatwork.com/v2/rooms"
     }
     
-    func get(token: APIToken) async throws -> GetResponse {
+    public func get() async throws -> GetResponse {
         let url = URL(string: urlString)!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         let (data, response) = try await URLSession.shared.data(for: request)
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
@@ -33,8 +34,9 @@ extension RoomsPath {
         }
     }
     
-    func post(token: APIToken, formData: PostFormData) async throws -> Int {
+    public func post(formData: PostFormData) async throws -> Int {
         let url = URL(string: urlString)!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .post, token: token)
         
         let postData = NSMutableData(data: "name=\(formData.name)".data(using: .utf8)!)
@@ -69,7 +71,7 @@ extension RoomsPath {
 }
 
 extension RoomsPath {
-    struct GetResponse  {
+    public struct GetResponse  {
         let body: [Room]
     }
 
@@ -103,7 +105,7 @@ extension RoomsPath {
         }
     }
     
-    struct PostFormData {
+    public struct PostFormData {
         // グループチャットの名前
         let name: String
         // グループチャットの概要
@@ -137,7 +139,7 @@ extension RoomsPath {
         }
     }
     
-    struct PostResponse: Decodable {
+    public struct PostResponse: Decodable {
         let roomId: Int
         
         enum CodingKeys: String, CodingKey {

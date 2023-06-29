@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct MessageIdPath {
+public struct MessageIdPath {
     private func endpointString(roomId: Int, messageId: String) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/messages/\(messageId)"
     }
     
-    func get(token: APIToken, roomId: Int, messageId: String) async throws -> GetResponse {
+    public func get(roomId: Int, messageId: String) async throws -> GetResponse {
         let url = URL(string: endpointString(roomId: roomId, messageId: messageId))!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -29,8 +30,9 @@ struct MessageIdPath {
         }
     }
     
-    func put(token: APIToken, roomId: Int, messageId: String, formData: FormData) async throws -> PutResponse {
+    public func put(roomId: Int, messageId: String, formData: FormData) async throws -> PutResponse {
         let url = URL(string: endpointString(roomId: roomId, messageId: messageId))!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .put, token: token)
         let postData = NSMutableData(data: "body=\(formData.body)".data(using: .utf8)!)
         
@@ -50,8 +52,9 @@ struct MessageIdPath {
         }
     }
     
-    func delete(token: APIToken, roomId: Int, messageId: String) async throws -> DeleteResponse {
+    public func delete(roomId: Int, messageId: String) async throws -> DeleteResponse {
         let url = URL(string: endpointString(roomId: roomId, messageId: messageId))!
+        let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .delete, token: token)
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -71,7 +74,7 @@ struct MessageIdPath {
 
 // Types
 extension MessageIdPath {
-    struct GetResponse: Decodable {
+    public struct GetResponse: Decodable {
         let messageId: String
         let account: ChatworkAPI.Account
         let body: String
@@ -87,7 +90,7 @@ extension MessageIdPath {
         }
     }
     
-    struct PutResponse: Decodable {
+    public struct PutResponse: Decodable {
         let messageId: String
         
         enum CodingKeys: String, CodingKey {
@@ -95,11 +98,11 @@ extension MessageIdPath {
         }
     }
     
-    struct FormData {
+    public struct FormData {
         let body: String
     }
     
-    struct DeleteResponse: Decodable {
+    public struct DeleteResponse: Decodable {
         let messageId: String
         
         enum CodingKeys: String, CodingKey {

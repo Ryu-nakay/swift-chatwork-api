@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct ReadPath {
+public struct ReadPath {
     private func endpointString(roomId: Int) -> String {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/messages"
     }
     
-    func put(token: APIToken, roomId: Int, formData: FormData) async throws -> PutResponse {
+    public func put(roomId: Int, formData: FormData) async throws -> PutResponse {
         let url = URL(string: endpointString(roomId: roomId))!
+        let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .put, token: token)
         
         let postData = NSMutableData(data: "&body=\(formData.body)".data(using: .utf8)!)
@@ -35,12 +36,12 @@ struct ReadPath {
         }
     }
     
-    struct FormData {
+    public struct FormData {
         let body: String
         let selfUnread: SelfUnread
     }
     
-    struct PutResponse: Decodable {
+    public struct PutResponse: Decodable {
         let messageId: String
         
         enum CodingKeys: String, CodingKey {
