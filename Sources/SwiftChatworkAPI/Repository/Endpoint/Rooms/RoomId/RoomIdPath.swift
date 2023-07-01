@@ -55,7 +55,12 @@ public struct RoomIdPath {
     public func delete(roomId: Int, actionType: DeleteActionType) async throws {
         let url = URL(string: endpointString + "/\(roomId)")!
         let token = try TokenStore.shared.getToken()
-        let request = generateRequest(url: url, method: .delete, token: token)
+        var request = generateRequest(url: url, method: .delete, token: token)
+        
+        let postData = NSMutableData(data: "&action_type=\(actionType.rawValue)".data(using: .utf8)!)
+        
+        request.httpBody = postData as Data
+        
         // リクエスト
         let (_, response) = try await URLSession.shared.data(for: request)
         let responseStatusCode = (response as! HTTPURLResponse).statusCode

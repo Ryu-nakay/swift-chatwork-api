@@ -14,25 +14,27 @@ public struct TasksPath {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/tasks"
     }
     
-    public func get(roomId: Int, queryParams: QueryParams) async throws -> GetResponse {
-        let url = URL(string: endpointString(roomId: roomId))!
+    public func get(roomId: Int, queryParams: QueryParams) async throws -> [GetResponse] {
+        let url = URL(string: endpointString(roomId: roomId) + "?account_id=\(queryParams.accountId)&assigned_by_account_id=\(queryParams.assignedByAccountId)&status=\(queryParams.status.rawValue)")!
         let token = try TokenStore.shared.getToken()
         var request = generateRequest(url: url, method: .get, token: token)
         
-        let postData = NSMutableData(data: "account_id=\(queryParams.accountId)".data(using: .utf8)!)
-        postData.append("&assigned_by_account_id=\(queryParams.assignedByAccountId)".data(using: .utf8)!)
-        postData.append("&status=\(queryParams.status.rawValue)".data(using: .utf8)!)
-        
-        request.httpBody = postData as Data
         // リクエスト
         let (data, response) = try await URLSession.shared.data(for: request)
         let responseStatusCode = (response as! HTTPURLResponse).statusCode
         // 200以外は例外
         try throwNot200Or204StatusCode(responseStatusCode)
+        
+        if responseStatusCode == 204 {
+            return []
+        }
+        
         // デコードする
         do {
-            let decodeResult = try JSONDecoder().decode(DecodableGetResponse.self, from: data)
-            return decodeResult.conversionToGetResponse()
+            let decodeResult = try JSONDecoder().decode([DecodableGetResponse].self, from: data)
+            return decodeResult.map({ result in
+                result.conversionToGetResponse()
+            })
         } catch {
             throw APIError.failedToDecodeModel
         }

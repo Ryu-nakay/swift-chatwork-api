@@ -126,7 +126,7 @@ extension RoomsPath {
         // グループチャットのアイコンの種類(選択)
         let iconPreset: ChatworkAPI.IconPreset
         
-        init(name: String, description: String, link: Int = 0, linkCode: String?, linkNeedAcceptance: Int = 1, membersAdminIds: String, membersMemberIds: String, membersReadonlyIds: String, iconPreset: ChatworkAPI.IconPreset) {
+        init(name: String, description: String, link: Int = 0, linkCode: String? = nil, linkNeedAcceptance: Int = 1, membersAdminIds: String, membersMemberIds: String, membersReadonlyIds: String, iconPreset: ChatworkAPI.IconPreset) {
             self.name = name
             self.description = description
             self.link = link
