@@ -81,6 +81,7 @@ extension RoomsPath {
         public let type: String
         public let role: String
         public let sticky: Bool
+        public let unreadNum: Int
         public let mentionNum: Int
         public let mytaskNum: Int
         public let messageNum: Int
@@ -95,6 +96,7 @@ extension RoomsPath {
             case type = "type"
             case role = "role"
             case sticky = "sticky"
+            case unreadNum = "unread_num"
             case mentionNum = "mention_num"
             case mytaskNum = "mytask_num"
             case messageNum = "message_num"
