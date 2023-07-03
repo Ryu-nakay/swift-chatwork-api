@@ -72,10 +72,10 @@ extension RoomsPath {
 
 extension RoomsPath {
     public struct GetResponse  {
-        let body: [Room]
+        public let body: [Room]
     }
 
-    struct Room: Decodable {
+    public struct Room: Decodable {
         let roomId: Int
         let name: String
         let type: String
