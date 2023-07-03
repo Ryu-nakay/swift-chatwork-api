@@ -76,18 +76,18 @@ extension RoomsPath {
     }
 
     public struct Room: Decodable {
-        let roomId: Int
-        let name: String
-        let type: String
-        let role: String
-        let sticky: Bool
-        let mentionNum: Int
-        let mytaskNum: Int
-        let messageNum: Int
-        let fileNum: Int
-        let taskNum: Int
-        let iconPath: String
-        let lastUpdateTime: Int
+        public let roomId: Int
+        public let name: String
+        public let type: String
+        public let role: String
+        public let sticky: Bool
+        public let mentionNum: Int
+        public let mytaskNum: Int
+        public let messageNum: Int
+        public let fileNum: Int
+        public let taskNum: Int
+        public let iconPath: String
+        public let lastUpdateTime: Int
         
         enum CodingKeys: String, CodingKey {
             case roomId = "room_id"
