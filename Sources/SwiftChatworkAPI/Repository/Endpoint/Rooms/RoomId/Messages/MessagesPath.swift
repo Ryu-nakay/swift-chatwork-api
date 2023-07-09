@@ -16,7 +16,7 @@ public struct MessagesPath {
         return "https://api.chatwork.com/v2/rooms/\(roomId)/messages"
     }
     
-    public func get(roomId: Int, force: Force = .force0) async throws -> GetResponse? {
+    public func get(roomId: Int, force: Force = .force0) async throws -> [GetResponse] {
         let url = URL(string: endpointString(roomId: roomId) + "?force=\(force.rawValue)")!
         let token = try TokenStore.shared.getToken()
         let request = generateRequest(url: url, method: .get, token: token)
@@ -28,10 +28,10 @@ public struct MessagesPath {
         // デコードする
         do {
             if responseStatusCode == 204 {
-                return nil
+                return []
             }
             
-            let decodeResult = try JSONDecoder().decode(GetResponse.self, from: data)
+            let decodeResult = try JSONDecoder().decode([GetResponse].self, from: data)
             return decodeResult
             
         } catch {
