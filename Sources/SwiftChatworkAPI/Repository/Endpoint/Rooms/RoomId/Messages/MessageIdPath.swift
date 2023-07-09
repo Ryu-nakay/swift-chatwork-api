@@ -75,11 +75,11 @@ public struct MessageIdPath {
 // Types
 extension MessageIdPath {
     public struct GetResponse: Decodable {
-        let messageId: String
-        let account: ChatworkAPI.Account
-        let body: String
-        let sendTime: Int
-        let updateTime: Int
+        public let messageId: String
+        public let account: ChatworkAPI.Account
+        public let body: String
+        public let sendTime: Int
+        public let updateTime: Int
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"
@@ -91,7 +91,7 @@ extension MessageIdPath {
     }
     
     public struct PutResponse: Decodable {
-        let messageId: String
+        public let messageId: String
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"
@@ -99,11 +99,11 @@ extension MessageIdPath {
     }
     
     public struct FormData {
-        let body: String
+        public let body: String
     }
     
     public struct DeleteResponse: Decodable {
-        let messageId: String
+        public let messageId: String
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"

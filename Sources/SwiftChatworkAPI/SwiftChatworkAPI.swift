@@ -43,7 +43,7 @@ struct TokenStore {
 
 // Type
 extension ChatworkAPI {
-    enum IconPreset: String {
+    public enum IconPreset: String {
         case group = "group"
         case check = "check"
         case document = "document"
@@ -63,13 +63,13 @@ extension ChatworkAPI {
         case travel = "travel"
     }
     
-    enum Role: String {
+    public enum Role: String {
         case admin = "admin"
         case member = "member"
         case readonly = "readonly"
     }
     
-    struct Account: Decodable {
+    public struct Account: Decodable {
         let accountId: Int
         let name: String
         let avatarImageUrl: String

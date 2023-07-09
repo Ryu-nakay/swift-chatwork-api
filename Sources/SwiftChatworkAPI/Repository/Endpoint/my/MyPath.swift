@@ -37,12 +37,12 @@ public extension MyPath {
         
         // Types
         public struct GetResponse: Decodable {
-            let unreadRoomNum: Int
-            let mentionRoomNum: Int
-            let mytaskRoomNum: Int
-            let unreadNum: Int
-            let mentionNum: Int
-            let mytaskNum: Int
+            public let unreadRoomNum: Int
+            public let mentionRoomNum: Int
+            public let mytaskRoomNum: Int
+            public let unreadNum: Int
+            public let mentionNum: Int
+            public let mytaskNum: Int
             
             enum CodingKeys: String, CodingKey {
                 case unreadRoomNum = "unread_room_num"
@@ -81,12 +81,12 @@ public extension MyPath {
         
         // Types
         public struct GetResponse: Decodable {
-            let unreadRoomNum : Int
-            let mentionRoomNum : Int
-            let mytaskRoomNum : Int
-            let unreadNum : Int
-            let mentionNum : Int
-            let mytaskNum : Int
+            public let unreadRoomNum : Int
+            public let mentionRoomNum : Int
+            public let mytaskRoomNum : Int
+            public let unreadNum : Int
+            public let mentionNum : Int
+            public let mytaskNum : Int
             
             enum CodingKeys: String, CodingKey {
                 case unreadRoomNum = "unread_room_num"

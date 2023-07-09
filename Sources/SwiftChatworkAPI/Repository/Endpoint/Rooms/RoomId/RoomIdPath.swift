@@ -72,20 +72,20 @@ public struct RoomIdPath {
 // Types
 extension RoomIdPath {
     public struct GetResponse: Decodable {
-        let roomId: Int
-        let name: String
-        let type: String
-        let role: String
-        let sticky: Bool
-        let unreadNum: Int
-        let mentionNum: Int
-        let mytaskNum: Int
-        let messageNum: Int
-        let fileNum: Int
-        let taskNum: Int
-        let iconPath: String
-        let lastUpdateTime: Int
-        let description: String
+        public let roomId: Int
+        public let name: String
+        public let type: String
+        public let role: String
+        public let sticky: Bool
+        public let unreadNum: Int
+        public let mentionNum: Int
+        public let mytaskNum: Int
+        public let messageNum: Int
+        public let fileNum: Int
+        public let taskNum: Int
+        public let iconPath: String
+        public let lastUpdateTime: Int
+        public let description: String
         
         enum CodingKeys: String, CodingKey {
             case roomId = "room_id"
@@ -106,13 +106,13 @@ extension RoomIdPath {
     }
 
     public struct PutFormData {
-        let name: String
-        let description: String
-        let iconPreset: ChatworkAPI.IconPreset
+        public let name: String
+        public let description: String
+        public let iconPreset: ChatworkAPI.IconPreset
     }
 
     public struct PutResponse: Decodable {
-        let roomId: Int
+        public let roomId: Int
         
         enum CodingKeys: String, CodingKey {
             case roomId = "room_id"

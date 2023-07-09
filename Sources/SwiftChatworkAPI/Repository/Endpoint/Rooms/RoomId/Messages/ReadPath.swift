@@ -37,12 +37,12 @@ public struct ReadPath {
     }
     
     public struct FormData {
-        let body: String
-        let selfUnread: SelfUnread
+        public let body: String
+        public let selfUnread: SelfUnread
     }
     
     public struct PutResponse: Decodable {
-        let messageId: String
+        public let messageId: String
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"

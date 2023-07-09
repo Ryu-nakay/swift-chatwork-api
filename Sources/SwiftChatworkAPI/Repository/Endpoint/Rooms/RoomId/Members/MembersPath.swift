@@ -61,17 +61,17 @@ public struct MembersPath {
 // Types
 extension MembersPath {
     public struct GetResponse {
-        let body: [Member]
+        public let body: [Member]
         
-        struct Member {
-            let accountId: Int
-            let role: ChatworkAPI.Role
-            let name: String
-            let chatworkId: String
-            let organizationId: Int
-            let organizationName: String
-            let department: String
-            let avatarImageUrl: String
+        public struct Member {
+            public let accountId: Int
+            public let role: ChatworkAPI.Role
+            public let name: String
+            public let chatworkId: String
+            public let organizationId: Int
+            public let organizationName: String
+            public let department: String
+            public let avatarImageUrl: String
         }
         
         struct DecodableMember: Decodable {
@@ -111,14 +111,14 @@ extension MembersPath {
     }
     
     public struct PutResponse: Decodable {
-        let admin: [Int]
-        let member: [Int]
-        let readonly: [Int]
+        public let admin: [Int]
+        public let member: [Int]
+        public let readonly: [Int]
     }
     
     public struct PutFormData {
-        let membersAdminIds: String
-        let membersMemberIds: String?
-        let membersReadonlyIds: String?
+        public let membersAdminIds: String
+        public let membersMemberIds: String?
+        public let membersReadonlyIds: String?
     }
 }

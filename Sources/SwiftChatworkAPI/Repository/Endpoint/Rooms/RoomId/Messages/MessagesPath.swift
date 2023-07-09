@@ -71,11 +71,11 @@ extension MessagesPath {
     }
     
     public struct GetResponse: Decodable {
-        let messageId: String
-        let account: ChatworkAPI.Account
-        let body: String
-        let sendTime: Int
-        let updateTime: Int
+        public let messageId: String
+        public let account: ChatworkAPI.Account
+        public let body: String
+        public let sendTime: Int
+        public let updateTime: Int
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"
@@ -89,12 +89,12 @@ extension MessagesPath {
     
     
     public struct FormData {
-        let body: Int
-        let selfUnread: SelfUnread
+        public let body: Int
+        public let selfUnread: SelfUnread
     }
     
     public struct PostResponse: Decodable {
-        let messageId: String
+        public let messageId: String
         
         enum CodingKeys: String, CodingKey {
             case messageId = "message_id"

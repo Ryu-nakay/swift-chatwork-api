@@ -109,26 +109,26 @@ extension RoomsPath {
     
     public struct PostFormData {
         // グループチャットの名前
-        let name: String
+        public let name: String
         // グループチャットの概要
-        let description: String
+        public let description: String
         // 招待リンクを作る場合(標準は0で作らない？)
-        let link: Int
+        public let link: Int
         // 招待リンクのパス
         // 省略するとランダム
-        let linkCode: String?
+        public let linkCode: String?
         // 参加承認の必要・不要(標準1で必要？)
-        let linkNeedAcceptance: Int
+        public let linkNeedAcceptance: Int
         // 管理権限にしたいユーザーの一覧(アカウントIDをカンマ区切りで1名以上)
-        let membersAdminIds: String
+        public let membersAdminIds: String
         // メンバー権限にしたいユーザーの一覧(アカウントIDをカンマ区切りで)
-        let membersMemberIds: String
+        public let membersMemberIds: String
         // 閲覧のみにしたいユーザー一覧(アカウントIDをカンマ区切りで)
-        let membersReadonlyIds: String
+        public let membersReadonlyIds: String
         // グループチャットのアイコンの種類(選択)
-        let iconPreset: ChatworkAPI.IconPreset
+        public let iconPreset: ChatworkAPI.IconPreset
         
-        init(name: String, description: String, link: Int = 0, linkCode: String? = nil, linkNeedAcceptance: Int = 1, membersAdminIds: String, membersMemberIds: String, membersReadonlyIds: String, iconPreset: ChatworkAPI.IconPreset) {
+        public init(name: String, description: String, link: Int = 0, linkCode: String? = nil, linkNeedAcceptance: Int = 1, membersAdminIds: String, membersMemberIds: String, membersReadonlyIds: String, iconPreset: ChatworkAPI.IconPreset) {
             self.name = name
             self.description = description
             self.link = link
@@ -142,7 +142,7 @@ extension RoomsPath {
     }
     
     public struct PostResponse: Decodable {
-        let roomId: Int
+        public let roomId: Int
         
         enum CodingKeys: String, CodingKey {
             case roomId = "room_id"

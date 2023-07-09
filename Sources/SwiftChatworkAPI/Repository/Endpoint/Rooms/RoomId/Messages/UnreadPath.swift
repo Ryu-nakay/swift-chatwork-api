@@ -35,11 +35,11 @@ public struct UnreadPath {
     }
     
     public struct PutResponse: Decodable {
-        let unreadNum: Int
-        let mentionNum: Int
+        public let unreadNum: Int
+        public let mentionNum: Int
     }
     
     public struct FormData {
-        let messageId: String
+        public let messageId: String
     }
 }
